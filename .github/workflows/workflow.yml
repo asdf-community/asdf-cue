@@ -1,0 +1,27 @@
+name: Main workflow
+
+on: [push, pull_request]
+
+jobs:
+  build:
+    strategy:
+      matrix:
+        os: [ubuntu-latest, macOS-latest]
+        cue: [0.0.2, 0.0.13]
+
+    runs-on: ${{ matrix.os }}
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v1
+
+      - name: Install asdf
+        run: git clone https://github.com/asdf-vm/asdf.git $HOME/asdf
+
+      - name: Install CUE and run test
+        run: |
+          . $HOME/asdf/asdf.sh
+          asdf plugin-add cue $GITHUB_WORKSPACE
+          asdf install cue ${{ matrix.cue }}
+          asdf global cue ${{ matrix.cue }}
+          cue version
