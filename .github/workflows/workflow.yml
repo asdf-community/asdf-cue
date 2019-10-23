@@ -25,3 +25,10 @@ jobs:
           asdf install cue ${{ matrix.cue }}
           asdf global cue ${{ matrix.cue }}
           cue version
+
+  shellcheck:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v1
+      - name: Run ShellCheck
+        run: shellcheck bin/*
