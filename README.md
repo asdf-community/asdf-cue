@@ -1,6 +1,6 @@
 <div align="center">
 <h1>asdf-cue 📦</h1>
-CUE plugin for asdf version manager
+<span><a href="https://cuelang.org">CUE</a> plugin for asdf version manager</span>
 </div>
 <hr />
 
