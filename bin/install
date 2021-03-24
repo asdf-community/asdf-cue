@@ -16,23 +16,41 @@ install_cue() {
     fail "asdf-cue supports release installs only"
   fi
 
+  local converted_version
+  local beta_version
+  converted_version=$(echo "$version" | grep -Eo '[0-9]+.[0-9]+.[0-9]+' | tr -d '.')
+  beta_version=$(echo "$version" | grep -Eo '.[0-9]+' | tail -n 1 | tr -d '.')
+
   local platform
-
-  case "$OSTYPE" in
-    darwin*) platform="Darwin" ;;
-    linux*) platform="Linux" ;;
-    *) fail "Unsupported platform" ;;
-  esac
-
   local architecture
+  local download_url
 
-  case "$(uname -m)" in
-    x86_64) architecture="x86_64" ;;
-    arm | aarch64) architecture="arm64" ;;
-    *) fail "Unsupported architecture" ;;
-  esac
+  if [[ $converted_version -ge 030 && $beta_version -ge 6 ]]; then
+    case "$OSTYPE" in
+      darwin*) platform="darwin" ;;
+      linux*) platform="linux" ;;
+      *) fail "Unsupported platform" ;;
+    esac
+    case "$(uname -m)" in
+      x86_64) architecture="amd64" ;;
+      arm | aarch64) architecture="arm64" ;;
+      *) fail "Unsupported architecture" ;;
+    esac
+    download_url="https://github.com/cuelang/cue/releases/download/v${version}/cue_v${version}_${platform}_${architecture}.tar.gz"
+  else
+    case "$OSTYPE" in
+      darwin*) platform="Darwin" ;;
+      linux*) platform="Linux" ;;
+      *) fail "Unsupported platform" ;;
+    esac
+    case "$(uname -m)" in
+      x86_64) architecture="x86_64" ;;
+      arm | aarch64) architecture="arm64" ;;
+      *) fail "Unsupported architecture" ;;
+    esac
+    download_url="https://github.com/cuelang/cue/releases/download/${version}/cue_${version}_${platform}_${architecture}.tar.gz"
+  fi
 
-  local download_url="https://github.com/cuelang/cue/releases/download/v${version}/cue_${version}_${platform}_${architecture}.tar.gz"
   local source_path="${install_path}/bin/cue.tar.gz"
   local distination="${install_path}/bin"
 
