@@ -48,7 +48,7 @@ install_cue() {
       arm | aarch64) architecture="arm64" ;;
       *) fail "Unsupported architecture" ;;
     esac
-    download_url="https://github.com/cuelang/cue/releases/download/${version}/cue_${version}_${platform}_${architecture}.tar.gz"
+    download_url="https://github.com/cuelang/cue/releases/download/v${version}/cue_${version}_${platform}_${architecture}.tar.gz"
   fi
 
   local source_path="${install_path}/bin/cue.tar.gz"
