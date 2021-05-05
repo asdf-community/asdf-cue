@@ -39,8 +39,8 @@ install_cue() {
     download_url="https://github.com/cuelang/cue/releases/download/v${version}/cue_v${version}_${platform}_${architecture}.tar.gz"
   else
     case "$OSTYPE" in
-      darwin*) platform="Darwin" ;;
-      linux*) platform="Linux" ;;
+      darwin*) platform="darwin" ;;
+      linux*) platform="linux" ;;
       *) fail "Unsupported platform" ;;
     esac
     case "$(uname -m)" in
