@@ -11,27 +11,31 @@ install_cue() {
   local install_type=$1
   local version=$2
   local install_path=$3
-
   if [ "$install_type" != "version" ]; then
     fail "asdf-cue supports release installs only"
   fi
 
-  local converted_version
-  local beta_version
-  converted_version=$(echo "$version" | grep -Eo '[0-9]+.[0-9]+.[0-9]+' | tr -d '.')
-  beta_version=$(echo "$version" | grep -Eo '.[0-9]+' | tail -n 1 | tr -d '.')
+  local major_version
+  local minor_version
+  local patch_version
+  major_version=$(echo "$version" | grep -Eo '[0-9]+' | head -1 | tail -1)
+  minor_version=$(echo "$version" | grep -Eo '[0-9]+' | head -2 | tail -1)
+  patch_version=$(echo "$version" | grep -Eo '[0-9]+' | head -3 | tail -1)
 
-  local platform
   local architecture
-  local download_url
-
   case "$(uname -m)" in
     x86_64) architecture="x86_64" ;;
     arm | aarch64) architecture="arm64" ;;
     *) fail "Unsupported architecture" ;;
   esac
 
-  if [[ $converted_version -ge 030 && $beta_version -ge 6 ]]; then
+  local platform
+  local download_url
+  if [[ "$major_version" -ge 0 && "$minor_version" -ge 3 && "$patch_version" -ge 1  \
+      || "$version" == "v0.3.0-beta.6" \
+      || "$version" == "v0.3.0-beta.7" \
+      || "$version" == "v0.3.0-beta.8" \
+      || "$version" == "v0.3.0" ]]; then
     case "$OSTYPE" in
       darwin*) platform="darwin" ;;
       linux*) platform="linux" ;;
@@ -49,7 +53,6 @@ install_cue() {
 
   local source_path="${install_path}/bin/cue.tar.gz"
   local distination="${install_path}/bin"
-
   (
     echo "∗ Downloading and installing cue..."
     mkdir -p "$distination"
