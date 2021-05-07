@@ -31,7 +31,9 @@ install_cue() {
 
   local platform
   local download_url
-  if [[ "$major_version" -ge 0 && "$minor_version" -ge 3 && "$patch_version" -ge 1  \
+  if [[ "$major_version" -ge 0 && "$minor_version" -ge 3 && "$patch_version" -ge 1 \
+      || "$major_version" -ge 0 && "$minor_version" -ge 4 && "$patch_version" -ge 0 \
+      || "$major_version" -ge 1 && "$minor_version" -ge 0 && "$patch_version" -ge 0 \
       || "$version" == "v0.3.0-beta.6" \
       || "$version" == "v0.3.0-beta.7" \
       || "$version" == "v0.3.0-beta.8" \
