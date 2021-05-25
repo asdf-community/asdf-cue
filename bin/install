@@ -53,43 +53,20 @@ install_cue() {
   local platform
   local architecture
   local download_url
+  platform=$(get_platform)
+  arch=$(get_arch)
 
-  if [[ $converted_version -ge 030 && $beta_version -ge 6 ]]; then
-    case "$OSTYPE" in
-      darwin*) platform="darwin" ;;
-      linux*) platform="linux" ;;
-      *) fail "Unsupported platform" ;;
-    esac
-    case "$(uname -m)" in
-      x86_64) architecture="amd64" ;;
-      arm | aarch64) architecture="arm64" ;;
-      *) fail "Unsupported architecture" ;;
-    esac
-    download_url="https://github.com/cuelang/cue/releases/download/v${version}/cue_v${version}_${platform}_${architecture}.tar.gz"
-  else
-    case "$OSTYPE" in
-      darwin*) platform="Darwin" ;;
-      linux*) platform="Linux" ;;
-      *) fail "Unsupported platform" ;;
-    esac
-    case "$(uname -m)" in
-      x86_64) architecture="x86_64" ;;
-      arm | aarch64) architecture="arm64" ;;
-      *) fail "Unsupported architecture" ;;
-    esac
-    download_url="https://github.com/cuelang/cue/releases/download/v${version}/cue_${version}_${platform}_${architecture}.tar.gz"
-  fi
-
+  download_url="https://github.com/cuelang/cue/releases/download/v${version}/cue_v${version}_${platform}_${arch}.tar.gz"
   local source_path="${install_path}/bin/cue.tar.gz"
   local distination="${install_path}/bin"
 
   (
-    echo "∗ Downloading and installing cue..."
-    mkdir -p "$distination"
-    curl --silent --location --create-dirs --output "$source_path" "$download_url" || fail "Could not download"
-    tar zxf "$source_path" -C "$distination" >/dev/null || fail "Could not uncompress"
-    rm "$source_path"
-    echo "The installation was successful!"
+    echo "∗ Downloading and installing cue $version..."
+    mkdir -p $distination
+    curl -L $download_url > $source_path || fail "Could not download $download_url"
+    tar zxvf $source_path -C $distination >/dev/null || fail "Could not uncompress"
+    rm $source_path
+    echo "The cue $version installation was successful!"
   ) || (
     rm -rf "$install_path"
     fail "An error occurred"
