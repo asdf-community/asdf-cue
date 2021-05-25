@@ -45,13 +45,6 @@ install_cue() {
     fail "asdf-cue supports release installs only"
   fi
 
-  local converted_version
-  local beta_version
-  converted_version=$(echo "$version" | grep -Eo '[0-9]+.[0-9]+.[0-9]+' | tr -d '.')
-  beta_version=$(echo "$version" | grep -Eo '.[0-9]+' | tail -n 1 | tr -d '.')
-
-  local platform
-  local architecture
   local download_url
   platform=$(get_platform)
   arch=$(get_arch)
@@ -62,10 +55,10 @@ install_cue() {
 
   (
     echo "∗ Downloading and installing cue $version..."
-    mkdir -p $distination
-    curl -L $download_url > $source_path || fail "Could not download $download_url"
-    tar zxvf $source_path -C $distination >/dev/null || fail "Could not uncompress"
-    rm $source_path
+    mkdir -p "$distination"
+    curl -L "$download_url" >"$source_path" || fail "Could not download $download_url"
+    tar zxvf "$source_path" -C "$distination" >/dev/null || fail "Could not uncompress"
+    rm "$source_path"
     echo "The cue $version installation was successful!"
   ) || (
     rm -rf "$install_path"
