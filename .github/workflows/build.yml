@@ -1,10 +1,10 @@
-name: Main workflow
+name: Build
 
 on:
   push:
   pull_request:
   schedule:
-    - cron: 0 0 * * 5
+    - cron: 0 0 * * *
 
 jobs:
   plugin_test:
@@ -42,29 +42,3 @@ jobs:
           make test
         env:
           GITHUB_API_TOKEN: ${{ github.token }}
-
-  lint:
-    runs-on: ubuntu-latest
-
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v2
-
-      - name: Install ShellCheck
-        run: brew install shellcheck
-
-      - name: Run ShellCheck
-        run: make lint
-
-  format:
-    runs-on: ubuntu-latest
-
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v2
-
-      - name: Install shfmt
-        run: brew install shfmt
-
-      - name: Run shfmt
-        run: make fmt-check
