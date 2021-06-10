@@ -55,8 +55,7 @@ install_cue() {
   (
     echo "∗ Downloading and installing cue $version..."
     mkdir -p "$distination"
-    curl -L "https://github.com/cuelang/cue/releases/download/v${version}/checksums.txt" >"${install_path}/bin/checksums.txt" || fail "Could not download v${version}/checksums.txt"
-    download_file=$(grep <"$install_path"/bin/checksums.txt -i "$platform" | grep -i "$arch" | awk '{print $2}')
+    download_file=$(curl -H "Accept: application/vnd.github.v3+json" "https://api.github.com/repos/cuelang/cue/releases/tags/v${version}" | jq '.assets[].name' | grep -i "$platform" | grep -i "$arch" | sed 's/\"//g')
     download_url="https://github.com/cuelang/cue/releases/download/v${version}/$download_file"
     curl -L "$download_url" >"$source_path" || fail "Could not download $download_url"
     tar zxvf "$source_path" -C "$distination" >/dev/null || fail "Could not uncompress"
