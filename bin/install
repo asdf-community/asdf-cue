@@ -53,6 +53,10 @@ install_cue() {
     ext=".zip"
   fi
 
+  if [ "$platform" == "darwin" ]; then
+    arch="amd64\|x86_64"
+  fi
+
   local source_path="${install_path}/bin/cue${ext}"
   local distination="${install_path}/bin"
 
