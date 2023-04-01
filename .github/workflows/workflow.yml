@@ -40,6 +40,10 @@ jobs:
       - name: Setup asdf
         uses: asdf-vm/actions/setup@v2
 
+      - name: Set up Homebrew
+        id: set-up-homebrew
+        uses: Homebrew/actions/setup-homebrew@master
+
       - name: Install bats-core
         run: brew install bats-core
 
