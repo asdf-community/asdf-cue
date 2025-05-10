@@ -9,7 +9,7 @@
 ## Installation
 
 ```bash
-asdf plugin-add cue https://github.com/asdf-community/asdf-cue.git
+asdf plugin add cue https://github.com/asdf-community/asdf-cue.git
 ```
 
 ## Usage
