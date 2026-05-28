@@ -1,4 +1,4 @@
-name: Main workflow
+name: Build
 
 on:
   push:
@@ -38,7 +38,7 @@ jobs:
         os:
           - macos-latest
           - ubuntu-latest
-    
+
     runs-on: ${{ matrix.os }}
 
     steps:

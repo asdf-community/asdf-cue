@@ -1,0 +1,26 @@
+name: Lint
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v6
+
+      - name: Set up Homebrew
+        id: set-up-homebrew
+        uses: Homebrew/actions/setup-homebrew@main
+
+      - name: Install lint tools
+        run: brew install shellcheck shfmt
+
+      - name: Run shfmt
+        run: make format-check
+
+      - name: Run ShellCheck
+        run: make lint
