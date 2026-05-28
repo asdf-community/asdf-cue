@@ -53,7 +53,7 @@ latest_stable_version() {
 
   while IFS= read -r version; do
     [ -z "$version" ] && continue
-    [[ "$version" =~ ^[0-9]+\.[0-9]+\.[0-9]+$ ]] || continue
+    [[ $version =~ ^[0-9]+\.[0-9]+\.[0-9]+$ ]] || continue
     if [ -n "$query" ] && [ "${version#"$query"}" = "$version" ]; then
       continue
     fi
