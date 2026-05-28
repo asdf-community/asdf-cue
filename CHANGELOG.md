@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.0.1](https://github.com/asdf-community/asdf-cue/compare/v1.0.0...v1.0.1) (2026-05-28)
+
+
+### Bug Fixes
+
+* clarify cue release metadata failures ([0076bc8](https://github.com/asdf-community/asdf-cue/commit/0076bc8744b3586f933a517b341d0c94854d4fcf))
+
 ## 1.0.0 (2026-05-28)
 
 
