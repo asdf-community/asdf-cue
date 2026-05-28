@@ -122,7 +122,7 @@ release_json() {
   local version="$1"
   local response
 
-  if ! response=$(github_api "https://api.github.com/repos/${CUE_REPO}/releases/tags/v${version}" 2>/dev/null); then
+  if ! response=$(github_api "https://api.github.com/repos/${CUE_REPO}/releases/tags/v${version}"); then
     return 1
   fi
 
@@ -181,7 +181,7 @@ download_url() {
   local json url status
 
   if ! json=$(release_json "$version"); then
-    fail "Version ${version} does not have a GitHub release with downloadable assets"
+    fail "Could not fetch GitHub release metadata for cue ${version}. The version may not have downloadable release assets, or the GitHub API may be unavailable or rate-limited."
   fi
 
   status=0
