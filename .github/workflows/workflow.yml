@@ -20,7 +20,7 @@ jobs:
     steps:
       - name: Set up Homebrew
         id: set-up-homebrew
-        uses: Homebrew/actions/setup-homebrew@master
+        uses: Homebrew/actions/setup-homebrew@main
 
       - name: Install coreutils
         run: brew install coreutils
@@ -50,14 +50,14 @@ jobs:
 
       - name: Set up Homebrew
         id: set-up-homebrew
-        uses: Homebrew/actions/setup-homebrew@master
+        uses: Homebrew/actions/setup-homebrew@main
 
       - name: Install bats-core
         run: brew install bats-core
 
       - name: Test plugin
         run: |
-          asdf plugin-add cue $GITHUB_WORKSPACE
+          asdf plugin add cue $GITHUB_WORKSPACE
           make test
         env:
           GITHUB_API_TOKEN: ${{ github.token }}
