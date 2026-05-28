@@ -1,0 +1,22 @@
+#!/usr/bin/env bash
+
+set -euo pipefail
+
+# shellcheck source=lib/utils.bash
+source "$(dirname "$0")/../lib/utils.bash"
+
+if [ "${ASDF_INSTALL_TYPE:-version}" != "version" ]; then
+  fail "asdf-cue supports release installs only"
+fi
+
+version=$(resolve_version "$ASDF_INSTALL_VERSION")
+platform=$(get_platform)
+arch=$(get_arch)
+ext=$(archive_extension "$platform")
+archive_path="${ASDF_DOWNLOAD_PATH}/cue.${ext}"
+
+mkdir -p "$ASDF_DOWNLOAD_PATH"
+
+echo "∗ Downloading cue $version..."
+release_url=$(download_url "$version" "$platform" "$arch" "$ext")
+curl "${curl_opts[@]}" -o "$archive_path" "$release_url" || fail "Could not download $release_url"
